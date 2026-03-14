@@ -1,0 +1,30 @@
+name: Deploy do Projeto AI Studio
+on:
+  push:
+    branches: ["main"] # Garanta que sua branch principal se chama main
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Setup Node ⚙️
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install and Build 🔧
+        run: |
+          npm install
+          npm run build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist # O Vite gera os arquivos prontos nesta pasta
+          branch: gh-pages # O robô vai criar essa branch sozinho
