@@ -1,0 +1,98 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and settings",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Subject": {
+      "title": "Subject",
+      "description": "A study subject (e.g., Cardiology, Pediatrics)",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "color": { "type": "string" },
+        "icon": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name"]
+    },
+    "Topic": {
+      "title": "Topic",
+      "description": "A specific topic within a subject",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "subjectId": { "type": "string" },
+        "lastReviewDate": { "type": "string", "format": "date-time" },
+        "nextReviewDate": { "type": "string", "format": "date-time" },
+        "interval": { "type": "number", "description": "Current interval in days" },
+        "easinessFactor": { "type": "number", "description": "SM-2 easiness factor" },
+        "repetitions": { "type": "number", "description": "Number of successful repetitions" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "subjectId"]
+    },
+    "StudySession": {
+      "title": "Study Session",
+      "description": "A record of a study session",
+      "type": "object",
+      "properties": {
+        "topicId": { "type": "string" },
+        "subjectId": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "questionsCount": { "type": "number" },
+        "correctCount": { "type": "number" },
+        "studyTimeMinutes": { "type": "number" }
+      },
+      "required": ["topicId", "subjectId", "date"]
+    },
+    "CalendarEvent": {
+      "title": "Calendar Event",
+      "description": "A manual calendar appointment",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "start": { "type": "string", "format": "date-time" },
+        "end": { "type": "string", "format": "date-time" },
+        "googleEventId": { "type": "string" }
+      },
+      "required": ["title", "start", "end"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile"
+    },
+    "/users/{userId}/subjects/{subjectId}": {
+      "schema": "Subject",
+      "description": "User's study subjects"
+    },
+    "/users/{userId}/topics/{topicId}": {
+      "schema": "Topic",
+      "description": "User's study topics"
+    },
+    "/users/{userId}/studySessions/{sessionId}": {
+      "schema": "StudySession",
+      "description": "User's study session history"
+    },
+    "/users/{userId}/calendarEvents/{eventId}": {
+      "schema": "CalendarEvent",
+      "description": "User's calendar events"
+    },
+    "/users/{userId}/secrets/{secretId}": {
+      "schema": "object",
+      "description": "User's private secrets (e.g., OAuth tokens)"
+    }
+  }
+}
